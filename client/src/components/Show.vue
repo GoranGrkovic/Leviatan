@@ -19,7 +19,7 @@
                     <td><input v-model="profile.lastName" placeholder="edit me"></td>
                     <td><input v-model="profile.age" placeholder="edit me"></td>
                     <div class="col-md-2">
-                        <button class="btn btn-primary" @click="updateProfile(profile)">Update</button>
+                        <button class="btn btn-primary" @click="updateProfile(profile)" :disabled="!profile.age || !profile.firstName || !profile.lastName" >Update</button>
                     </div>
                     <div class="col-md-2">
                         <button class="btn btn-primary" @click="deleteProfile(profile.id)">Delete</button>
@@ -48,6 +48,7 @@ export default {
     mounted() {
         this.loadProfilesTable();
     },
+    
     methods: {
         deleteProfile: function (id) {
             axios.delete("http://localhost:3000/api/" + id, {
@@ -59,9 +60,10 @@ export default {
                 })
         },
         updateProfile: function (value) {
-            this.profiles.id = value.id;
-            this.profiles.firstName = value.firstName;
-            this.profiles.lastName = value.lastName;
+            // this.profiles.id = value.id;
+            // this.profiles.firstName = value.firstName;
+            // this.profiles.lastName = value.lastName;
+            if(value.age && value.firstName && value.lastName)
             axios.put("http://localhost:3000/api/" + value.id , {
                 firstName: value.firstName,
                 lastName: value.lastName,
