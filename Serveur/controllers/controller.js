@@ -2,6 +2,8 @@ const Profile = require('../models/profils')
 
 // Create 
 exports.create = async (req, res) => {
+    console.log("test")
+
     try {
         const profile = await Profile.create(req.body);
         res.status(201).json(profile);
@@ -42,17 +44,23 @@ exports.findOne = async (req, res) => {
 
 // Update  
 exports.update = async (req, res) => {
-    try {
-        const { id } = req.params;
-        const profile = await Profile.findByIdAndUpdate(id, req.body);
-        !profile ?
-            res.status(404).json({ message: `cannot find any profile why this id : ${id}` }) :
-            res.status(200).json(profile);
-    } catch (error) {
+    if (req.body.firstName && req.body.lastName && req.body.age)
+        try {
+            console.log(req.body)
+            const { id } = req.params;
+            const profile = await Profile.findByIdAndUpdate(id, req.body);
+            !profile ?
+                res.status(404).json({ message: `cannot find any profile why this id : ${id}` }) :
+                res.status(200).json(req.body);
+        } catch (error) {
+            res.status(500).json({
+                message: error.message
+            })
+        }
+    else
         res.status(500).json({
-            message: error.message
+            message: 'Object incomplet'
         })
-    }
 };
 
 // Delete 
