@@ -2,8 +2,6 @@ const Profile = require('../models/profils')
 
 // Create 
 exports.create = async (req, res) => {
-    console.log("test")
-
     try {
         const profile = await Profile.create(req.body);
         res.status(201).json(profile);
@@ -46,7 +44,6 @@ exports.findOne = async (req, res) => {
 exports.update = async (req, res) => {
     if (req.body.firstName && req.body.lastName && req.body.age)
         try {
-            console.log(req.body)
             const { id } = req.params;
             const profile = await Profile.findByIdAndUpdate(id, req.body);
             !profile ?
